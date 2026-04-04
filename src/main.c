@@ -26,22 +26,29 @@ static const struct gpio_dt_spec led_orange = GPIO_DT_SPEC_GET(LED1_NODE, gpios)
 static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(LED2_NODE, gpios);
 static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(LED3_NODE, gpios);
 
-int main(void)
+int stm32f4_gpio_pin_configure(struct gpio_dt_spec *led)
 {
 	int ret;
-	bool led_state = true;
-
-	if (!gpio_is_ready_dt(&led)) {
+	if (!gpio_is_ready_dt(led)) {
 		return 0;
 	}
 
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+	ret = gpio_pin_configure_dt(led, GPIO_OUTPUT_ACTIVE);
 	if (ret < 0) {
 		return 0;
 	}
 
+}
+
+int main(void)
+{
+	bool led_state = true;
+	int ret;
+
+  stm32f4_gpio_pin_configure(&led_green);
+
 	while (1) {
-		ret = gpio_pin_toggle_dt(&led);
+		ret = gpio_pin_toggle_dt(&led_green);
 		if (ret < 0) {
 			return 0;
 		}
