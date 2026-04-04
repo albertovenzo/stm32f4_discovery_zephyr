@@ -15,6 +15,9 @@
 #define LED2_NODE DT_ALIAS(led2)
 #define LED3_NODE DT_ALIAS(led3)
 
+#define STACKSIZE 1024
+#define PRIORITY_LOW 7
+
 static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 static const struct gpio_dt_spec led_orange = GPIO_DT_SPEC_GET(LED1_NODE, gpios);
 static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(LED2_NODE, gpios);
@@ -65,3 +68,8 @@ int main(void)
 	}
 	return 0;
 }
+
+/**
+K_THREAD_DEFINE(blink_green_id, STACKSIZE, blink0, NULL, NULL, NULL,
+    PRIORITY_LOW, 0, 0);
+**/
