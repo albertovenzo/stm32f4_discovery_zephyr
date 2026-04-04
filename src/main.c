@@ -32,6 +32,7 @@ int stm32f4_gpio_pin_configure(struct gpio_dt_spec *led)
 		return 0;
 	}
 
+  return ret;
 }
 
 int main(void)
