@@ -70,7 +70,7 @@ int main(void)
 }
 
 /* General function to pass to a thread */
-void stm32f4_led_thread(const struct gpio_dt_spec *led)
+void stm32f4_led_thread(const struct gpio_dt_spec *led, uint32_t thread_sleep_ms)
 {
   int ret;
 
@@ -82,7 +82,7 @@ void stm32f4_led_thread(const struct gpio_dt_spec *led)
     if (ret < 0) {
       return;
     }
-    k_msleep(SLEEP_TIME_MS);
+    k_msleep(thread_sleep_ms);
   }
 
 }
@@ -91,7 +91,7 @@ void stm32f4_led_thread(const struct gpio_dt_spec *led)
 // Thread functions
 void stm32f4_green_led_thread(void)
 {
-  stm32f4_led_thread(&led_green);
+  stm32f4_led_thread(&led_green, 100);
 }
 
 K_THREAD_DEFINE(blink_green_id, STACKSIZE, stm32f4_green_led_thread, NULL, NULL, NULL,
