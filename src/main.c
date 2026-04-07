@@ -45,25 +45,25 @@ int main(void)
   int i;
 
   //stm32f4_gpio_pin_configure(&led_green);
-  stm32f4_gpio_pin_configure(&led_orange);
-  stm32f4_gpio_pin_configure(&led_red);
-  stm32f4_gpio_pin_configure(&led_blue);
+  //stm32f4_gpio_pin_configure(&led_orange);
+  //stm32f4_gpio_pin_configure(&led_red);
+  //stm32f4_gpio_pin_configure(&led_blue);
 
 	while (1) {
 
 		//ret[0] = gpio_pin_toggle_dt(&led_green);
-		ret[1] = gpio_pin_toggle_dt(&led_orange);
-		ret[2] = gpio_pin_toggle_dt(&led_red);
-		ret[3] = gpio_pin_toggle_dt(&led_blue);
+		//ret[1] = gpio_pin_toggle_dt(&led_orange);
+		//ret[2] = gpio_pin_toggle_dt(&led_red);
+		//ret[3] = gpio_pin_toggle_dt(&led_blue);
 
-    for(i = 1; i < 4; i++) {
-		  if (ret[i] < 0) {
-			return 0;
-		  }
-    }
+    //for(i = 1; i < 4; i++) {
+		  //if (ret[i] < 0) {
+			//return 0;
+		  //}
+    //}
 
-		led_state = !led_state;
-		printf("LED state: %s\n", led_state ? "ON" : "OFF");
+		//led_state = !led_state;
+		//printf("LED state: %s\n", led_state ? "ON" : "OFF");
 		k_msleep(SLEEP_TIME_MS);
 	}
 	return 0;
@@ -94,5 +94,26 @@ void stm32f4_green_led_thread(void)
   stm32f4_led_thread(&led_green, 100);
 }
 
+void stm32f4_orange_led_thread(void)
+{
+  stm32f4_led_thread(&led_orange, 200);
+}
+
+void stm32f4_red_led_thread(void)
+{
+  stm32f4_led_thread(&led_red, 300);
+}
+
+void stm32f4_blue_led_thread(void)
+{
+  stm32f4_led_thread(&led_blue, 400);
+}
+
 K_THREAD_DEFINE(blink_green_id, STACKSIZE, stm32f4_green_led_thread, NULL, NULL, NULL,
+    PRIORITY_LOW, 0, 0);
+K_THREAD_DEFINE(blink_orange_id, STACKSIZE, stm32f4_orange_led_thread, NULL, NULL, NULL,
+    PRIORITY_LOW, 0, 0);
+K_THREAD_DEFINE(blink_red_id, STACKSIZE, stm32f4_red_led_thread, NULL, NULL, NULL,
+    PRIORITY_LOW, 0, 0);
+K_THREAD_DEFINE(blink_blue_id, STACKSIZE, stm32f4_blue_led_thread, NULL, NULL, NULL,
     PRIORITY_LOW, 0, 0);
