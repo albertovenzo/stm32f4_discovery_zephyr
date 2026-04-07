@@ -44,19 +44,19 @@ int main(void)
 	int ret[4];
   int i;
 
-  stm32f4_gpio_pin_configure(&led_green);
+  //stm32f4_gpio_pin_configure(&led_green);
   stm32f4_gpio_pin_configure(&led_orange);
   stm32f4_gpio_pin_configure(&led_red);
   stm32f4_gpio_pin_configure(&led_blue);
 
 	while (1) {
 
-		ret[0] = gpio_pin_toggle_dt(&led_green);
+		//ret[0] = gpio_pin_toggle_dt(&led_green);
 		ret[1] = gpio_pin_toggle_dt(&led_orange);
 		ret[2] = gpio_pin_toggle_dt(&led_red);
 		ret[3] = gpio_pin_toggle_dt(&led_blue);
 
-    for(i = 0; i < 4; i++) {
+    for(i = 1; i < 4; i++) {
 		  if (ret[i] < 0) {
 			return 0;
 		  }
@@ -69,7 +69,30 @@ int main(void)
 	return 0;
 }
 
-/**
-K_THREAD_DEFINE(blink_green_id, STACKSIZE, blink0, NULL, NULL, NULL,
+/* General function to pass to a thread */
+void stm32f4_led_thread(const struct gpio_dt_spec *led)
+{
+  int ret;
+
+  stm32f4_gpio_pin_configure(led);
+
+	while (1) {
+
+    ret = gpio_pin_toggle_dt(led);
+    if (ret < 0) {
+      return;
+    }
+    k_msleep(SLEEP_TIME_MS);
+  }
+
+}
+
+
+// Thread functions
+void stm32f4_green_led_thread(void)
+{
+  stm32f4_led_thread(&led_green);
+}
+
+K_THREAD_DEFINE(blink_green_id, STACKSIZE, stm32f4_green_led_thread, NULL, NULL, NULL,
     PRIORITY_LOW, 0, 0);
-**/
