@@ -2,10 +2,12 @@
    :name: Blinky
    :relevant-api: gpio_interface
 
-   Blink an LED forever using the GPIO API.
+   Blink 4 LEDs forever using the GPIO API.
 
 Overview
 ********
+
+This projects starts from the blinky example in the Zephyr Project Sample Folder.
 
 The Blinky sample blinks an LED forever using the :ref:`GPIO API <gpio_api>`.
 
@@ -27,7 +29,7 @@ Your board must:
 
 #. Have an LED connected via a GPIO pin (these are called "User LEDs" on many of
    Zephyr's :ref:`boards`).
-#. Have the LED configured using the ``led0`` devicetree alias.
+#. Have at least 4 LEDs configured using the ``led0``, ``led1``, ``led2`` and  ``led3``  devicetree aliases.
 
 Building and Running
 ********************
