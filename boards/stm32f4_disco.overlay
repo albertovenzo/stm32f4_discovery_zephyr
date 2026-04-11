@@ -1,0 +1,26 @@
+/ {
+    aliases {
+      /delete-property/ led0;
+      stm32f4pwm0 = &pwm_led_green;
+    };
+
+    leds {
+      /delete-node/ led_4;
+    };
+
+    pwmleds {
+      compatible = "pwm-leds";
+      pwm_led_green: pwm_led_green {
+         // Time 4, Channel 1, 20ms period  
+         pwms = <&pwm4 1 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+         label = "PWM Green LED";
+      };
+    };
+};
+
+&pwm4 {
+  status = "okay";
+  pinctrl-0 = <&tim4_ch1_pd12>;
+  pinctrl-names = "default";
+};
+
